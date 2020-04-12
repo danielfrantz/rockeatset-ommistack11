@@ -1,7 +1,10 @@
 const connection = require('../database/connection');
+const desableCors = require('../utils/desableCors');
 
 module.exports = {
     async create(request, response) {
+
+        desableCors(response);
 
         const { id } = request.body;
 

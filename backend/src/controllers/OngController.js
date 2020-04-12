@@ -1,17 +1,22 @@
 const crypto = require('crypto');
 const connection = require('../database/connection');
+const desableCors = require('../utils/desableCors');
 
 module.exports = {
     
-    async index(request, reponse) {
+    async index(request, response) {
+
+        desableCors(response);
 
         const ongs = await connection('ongs').select('*');
 
-        return reponse.json(ongs);
+        return response.json(ongs);
 
     },
 
     async create(request, response) {
+
+        desableCors(response);
 
         const { name, email, whatsapp, city, uf } = request.body;
 
@@ -26,6 +31,6 @@ module.exports = {
             uf
         });
 
-        return reponse.json({ id });
+        return response.json({ id });
     }
 };

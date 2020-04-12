@@ -1,14 +1,14 @@
-const crypto = require('crypto');
 const connection = require('../database/connection');
+const desableCors = require('../utils/desableCors');
 
 module.exports = {
     
     async index(request, response) {
+
+        desableCors(response);
+
         const { page } = request.query;
-
         const [count] = await connection('incidents').count();
-
-        console.log(count);
 
         const incidents = await connection('incidents')
             .join('ongs','ongs.id','=','incidents.ong_id')
@@ -30,12 +30,13 @@ module.exports = {
     },
 
     async create(request, response) {
+        desableCors(response);
 
-        const { titulo, description, value } = request.body;
+        const { title, description, value } = request.body;
         const ong_id = request.headers.authorization;
 
         const [id] = await connection('incidents').insert({
-            titulo, 
+            title, 
             description, 
             value,
             ong_id 
@@ -45,6 +46,8 @@ module.exports = {
     },
 
     async delete(request, response) {
+        
+        desableCors(response);
 
         const { id } = request.params;
         const ong_id = request.headers.authorization;
